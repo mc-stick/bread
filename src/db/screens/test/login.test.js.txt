@@ -1,0 +1,34 @@
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react-native';
+import { LoginScreen } from '../../../screen/login';
+
+
+const mockNavigation = {
+  replace: jest.fn(),
+};
+
+describe('LoginScreen', () => {
+  it('renders correctly', () => {
+    const { getByPlaceholderText, getByText } = render(<LoginScreen navigation={mockNavigation} />);
+
+    //esto verifica si el elemento se encuenta
+    expect(getByPlaceholderText('Usuario')).toBeTruthy();
+    expect(getByPlaceholderText('Contraseña')).toBeTruthy();
+    expect(getByText('Iniciar Sesión')).toBeTruthy();
+    expect(getByText('Registrarse')).toBeTruthy();
+  });
+
+  it('handles user input and login', () => {
+    const { getByPlaceholderText, getByText } = render(<LoginScreen navigation={mockNavigation} />);
+
+    // para simular la entrada del usuario.
+    fireEvent.changeText(getByPlaceholderText('Usuario'), 'testuser');
+    fireEvent.changeText(getByPlaceholderText('Contraseña'), 'testpassword');
+
+    // simula presiona el boton 
+    fireEvent.press(getByText('Iniciar Sesión'));
+
+    // verifica que la navegacion llame al parametro esperado
+    expect(mockNavigation.replace).toHaveBeenCalledWith('HomeScr');
+  });
+});

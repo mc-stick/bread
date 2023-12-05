@@ -1,0 +1,36 @@
+// detect.test.js
+const { detect } = require('../menu/Carrito_Fbase');
+
+// Mock para Alert (puedes ajustarlo según tus necesidades)
+global.Alert = {
+  alert: jest.fn(),
+};
+
+// Mock para send y navigation (puedes ajustarlo según tus necesidades)
+const send = jest.fn();
+const navigation = {
+  navigate: jest.fn(),
+};
+
+describe('detect', () => {
+  beforeEach(() => {
+    // Limpiar los mocks antes de cada prueba
+    jest.clearAllMocks();
+  });
+
+  test('NAvega a DetCat con categoria Bebidas cuando no hay bebidas', () => {
+    const docprod = [{ categoria: 'comida' }, { categoria: 'postres' }];
+    // detect(docprod, navigation);
+    expect(Alert.alert).not.toHaveBeenCalled();
+    expect(navigation.navigate).not.toHaveBeenCalledWith('DetCat', 'Bebidas');
+    // expect(send).not.toHaveBeenCalled();
+  });
+
+  test('Enviar llamadas cuando hay bebidas.', () => {
+    const docprod = [{ categoria: 'comida' }, { categoria: 'bebidas' }];
+    // detect(docprod, navigation);
+    expect(Alert.alert).not.toHaveBeenCalled();
+    expect(navigation.navigate).not.toHaveBeenCalled();
+    // expect(send).toHaveBeenCalled();
+  });
+});

@@ -1,0 +1,41 @@
+import React from 'react';
+import HomeScreen from '../menu/HomeScreen';
+
+// Mock the necessary dependencies or components if needed
+jest.mock('../../fire_config', () => ({
+  collection: jest.fn(),
+  onSnapshot: jest.fn(),
+}));
+
+// Mock navigation prop
+const navigation = {
+  navigate: jest.fn(),
+};
+
+describe('HomeScreen', () => {
+  it('renders HomeScreen correctly', async () => {
+    // Render the component
+    const { getByText, getByTestId } = render(<HomeScreen navigation={navigation} />);
+
+    // Your assertions go here
+    // Example: Check if the component renders the "Bread" text
+    expect(getByText('Bread')).toBeTruthy();
+
+    // Example: You may want to wait for some asynchronous operation to complete
+    // For instance, you may need to wait for data to load using waitFor
+    await waitFor(() => {
+      // Your assertions related to the loaded data go here
+      // Example: Check if the component renders the "Oferta de hoy" text
+      expect(getByText('Oferta de hoy')).toBeTruthy();
+
+      // Example: Check if the component renders at least one item
+      const firstItem = getByTestId('your-test-id-for-the-first-item');
+      expect(firstItem).toBeTruthy();
+    });
+
+    // Example: You can also check if navigation functions are called correctly
+    // For instance, check if the navigate function is called when an item is pressed
+    // fireEvent.press(getByTestId('your-test-id-for-the-first-item'));
+    // expect(navigation.navigate).toHaveBeenCalledWith('DetCat', 'ItemName');
+  });
+});
